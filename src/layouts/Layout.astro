@@ -1,0 +1,35 @@
+---
+import '@/styles/global.css'
+
+interface Props {
+  title?: string
+}
+
+const { title = 'Japsik™ 내려받기 센터' } = Astro.props
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="/assets/images/SealCircle.png" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="bg-gray-200 p-4">
+    <slot />
+  </body>
+</html>
+
+<style>
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+
+    hr {
+      visibility: hidden;
+    }
+  }
+</style>

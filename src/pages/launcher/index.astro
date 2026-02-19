@@ -1,0 +1,196 @@
+---
+import Layout from '@/layouts/Layout.astro'
+---
+
+<Layout title="Japsik™ Launcher 내려받기">
+  <div class="mx-auto max-w-4xl">
+    <hr class="my-4" />
+    <h1 class="mb-8 text-center text-4xl font-bold">
+      Japsik™ Launcher 내려받기
+    </h1>
+    <hr class="my-4" />
+    <div
+      class="mt-4 rounded-md border-l-4 border-blue-400 bg-blue-200 p-4 text-blue-600 shadow-md"
+      role="alert"
+    >
+      <p class="font-bold">
+        Japsik™ Launcher은
+        <a
+          href="https://japsik.com"
+          target="_blank"
+          class="text-blue-800 underline">Japsik™</a
+        >에서만 사용하실 수 있습니다.<br />
+        공개된 자료를 무단으로 수정, 배포, 또는 복제하는 행위는 민·형사상의 책임을
+        수반할 수 있습니다.
+      </p>
+    </div>
+
+    <div class="mb-4 flex space-x-4">
+      <!-- Japsik Launcher Latest Version Download Card -->
+      <div class="latest flex-1 rounded-md bg-white p-6 shadow-md">
+        <h2 class="mb-4 text-xl font-bold">
+          🌥️ Japsik™ Launcher (Stable)
+          <span class="float-right text-xs text-gray-500 italic"
+            >접속 시 필수 설치</span
+          >
+        </h2>
+        <p>
+          Minecraft®: Java Edition | Launcher: v<span id="stableLatest"
+            >로딩 중...</span
+          >
+        </p>
+        <p class="mb-4">Japsik Launcher (Stable Version)</p>
+        <button
+          class="block w-full rounded-md bg-blue-500 px-4 py-2 text-center text-white"
+          id="stableDownload"
+        >
+          내려받기
+        </button>
+      </div>
+      <!-- Japsik Launcher Dev Version Download Card -->
+      <div class="old flex-1 rounded-md bg-white p-6 shadow-md">
+        <h2 class="mb-4 text-xl font-bold">
+          🌎 Japsik™ Launcher (Dev)
+          <span class="float-right text-xs text-gray-500 italic"
+            >접속 시 필수 설치</span
+          >
+        </h2>
+        <p>
+          Minecraft®: Java Edition | Launcher: v<span id="devLatest"
+            >로딩 중...</span
+          >
+        </p>
+        <p class="mb-4">Japsik Launcher (Dev Version) (권장하지 않음)</p>
+        <button
+          class="block w-full rounded-md bg-blue-500 px-4 py-2 text-center text-white"
+          id="devDownload"
+        >
+          내려받기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 푸터 -->
+  <footer class="text-center text-sm text-gray-500">
+    <hr class="my-4" />
+    <!-- 이전 페이지로 돌아가기 버튼 -->
+    <div class="mt-4 text-center">
+      <a
+        href="/"
+        class="inline-block rounded-full border border-gray-500 bg-transparent px-4 py-2 text-gray-500"
+        >← 이전 페이지로 돌아가기</a
+      >
+      <hr class="my-2" />
+    </div>
+    <p>
+      ⓒ Japsik. 모든 권리 보유. Japsik™은 Mojang Studios의 Minecraft®를 기반으로
+      하는 온라인 멀티플레이어 게임 서비스입니다.<br />Minecraft®는 Mojang
+      Synergies AB의 상표이며, Japsik은 Mojang Studios 혹은 Microsoft
+      Corporation와 제휴 관계가 아닙니다.
+    </p>
+  </footer>
+
+  <script>
+    import semver from 'semver'
+    import Swal from 'sweetalert2'
+
+    // Github repository info
+    const repoOwner = 'Japsik-Server'
+    const repoName = 'JapsikLauncher'
+
+    // API endpoint URL
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/tags`
+
+    // API 호출
+    fetch(apiUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
+        return response.json()
+      })
+      .then(data => {
+        const tags = data.map((tag: any) => tag.name)
+
+        const latestStable = getLatestStable(tags).replace('v', '')
+        const latestDev = getLatestDev(tags).replace('v', '')
+
+        const stableLatestEl = document.getElementById('stableLatest')
+        const devLatestEl = document.getElementById('devLatest')
+
+        if (stableLatestEl) stableLatestEl.textContent = latestStable
+        if (devLatestEl) devLatestEl.textContent = latestDev
+
+        const stableDownloadBtn = document.getElementById('stableDownload')
+        const devDownloadBtn = document.getElementById('devDownload')
+
+        if (stableDownloadBtn) {
+          stableDownloadBtn.onclick = () =>
+            showConfirmation(latestStable, 'exe')
+        }
+
+        if (devDownloadBtn) {
+          devDownloadBtn.onclick = () => showConfirmation(latestDev, 'exe')
+        }
+      })
+      .catch(error => console.error('Error fetching data:', error))
+
+    function getLatestStable(tags: string[]) {
+      tags.sort((a, b) => semver.compare(b, a))
+      for (const tag of tags) {
+        if (!tag.includes('-')) {
+          return tag
+        }
+      }
+      return 'N/A'
+    }
+
+    function getLatestDev(tags: string[]) {
+      let latestDev: string | null = null
+      for (const tag of tags) {
+        if (tag.includes('-')) {
+          if (!latestDev || semver.compare(latestDev, tag) < 0) {
+            latestDev = tag
+          }
+        }
+      }
+      return latestDev ? latestDev : 'N/A'
+    }
+
+    function showConfirmation(version: string, extension: string) {
+      Swal.fire({
+        title: '소프트웨어 사용권 안내',
+        html:
+          'JapsikServer™ Launcher는 <b><a href="https://japsik.xyz" target="_blank">JapsikServer™</a></b> 및 JapsikServer™ 제반 서비스에서만 사용하실 수 있습니다. ' +
+          '공개된 자료를 무단으로 수정, 배포, 또는 복제하는 행위는 민·형사상의 책임을 수반할 수 있습니다.<br> ' +
+          '또한 이 소프트웨어는 어떠한 보증이 제공되지 않으며, 사용 도중 발생한 문제에 대하여 JapsikServer에서는 책임지지 않습니다. ' +
+          '이에 동의하시나요?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: '동의하고 내려받기',
+        cancelButtonText: '취소'
+      }).then(result => {
+        if (result.isConfirmed) {
+          const downloadUrl =
+            'https://github.com/Japsik-Server/JapsikLauncher/releases/download/' +
+            version +
+            '/Japsik-Launcher-setup-' +
+            version +
+            '.' +
+            extension
+          Swal.fire({
+            title: '다운로드가 시작되었습니다.',
+            html:
+              '다운로드가 자동으로 시작되지 않는다면 <u><a href="' +
+              downloadUrl +
+              '">이곳을 누르세요</a></u>.',
+            icon: 'success',
+            confirmButtonText: '확인'
+          })
+          window.location.href = downloadUrl
+        }
+      })
+    }
+  </script>
+</Layout>

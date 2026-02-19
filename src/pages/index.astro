@@ -1,0 +1,67 @@
+---
+import Layout from '@/layouts/Layout.astro'
+---
+
+<Layout>
+  <div class="mx-auto max-w-4xl">
+    <hr class="my-4" />
+    <h1 class="mb-8 text-center text-4xl font-bold">Japsik™ 내려받기 센터</h1>
+    <hr class="my-4" />
+    <div
+      class="mt-4 rounded-md border-l-4 border-blue-400 bg-blue-200 p-4 text-blue-600 shadow-md"
+      role="alert"
+    >
+      <p class="font-bold">
+        Japsik™ 의 모든 파일들은
+        <a
+          href="https://japsik.com"
+          target="_blank"
+          class="text-blue-800 underline">Japsik™</a
+        >에서만 사용하실 수 있습니다.<br />
+        공개된 자료를 무단으로 수정, 배포, 또는 복제하는 행위는 민·형사상의 책임을
+        수반할 수 있습니다.
+      </p>
+    </div>
+
+    <div class="mb-4 flex space-x-4">
+      <!-- Japsik Launcher Download Link Card -->
+      <div class="latest flex-1 rounded-md bg-white p-6 shadow-md">
+        <h2 class="mb-4 text-xl font-bold">
+          🌥️ Japsik™ Launcher
+          <span class="float-right text-xs text-gray-500 italic"
+            >접속 시 필수 설치</span
+          >
+        </h2>
+        <p>Minecraft®: Java Edition</p>
+        <p class="mb-4">Japsik Launcher</p>
+        <a
+          href="/launcher"
+          class="block w-full rounded-md bg-blue-500 px-4 py-2 text-center text-white"
+        >
+          바로가기
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 푸터 -->
+  <footer class="text-center text-sm text-gray-500">
+    <hr class="my-4" />
+    <!-- 홈페이지로 돌아가기 버튼 -->
+    <div class="mt-4 text-center">
+      <a
+        href="https://japsik.com"
+        target="_blank"
+        class="inline-block rounded-full border border-gray-500 bg-transparent px-4 py-2 text-gray-500"
+        >← 홈페이지로 돌아가기</a
+      >
+      <hr class="my-2" />
+    </div>
+    <p>
+      ⓒ Japsik. 모든 권리 보유. Japsik™은 Mojang Studios의 Minecraft®를 기반으로
+      하는 온라인 멀티플레이어 게임 서비스입니다.<br />Minecraft®지지 Mojang
+      Synergies AB의 상표이며, Japsik은 Mojang Studios 혹은 Microsoft
+      Corporation와 제휴 관계가 아닙니다.
+    </p>
+  </footer>
+</Layout>

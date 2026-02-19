@@ -1,0 +1,50 @@
+---
+import Layout from '../../layouts/Layout.astro'
+---
+
+<Layout title="CDN Fixer">
+  <div class="mx-auto mt-8 max-w-4xl rounded-md bg-white p-8 shadow-md">
+    <h1 class="mb-4 text-3xl font-bold">Discord CDN Fixer</h1>
+    <label for="linkInput" class="mb-2 block font-semibold"
+      >Enter your link:</label
+    >
+    <input
+      type="text"
+      id="linkInput"
+      placeholder="Enter the link here"
+      class="mb-4 w-full rounded-md border border-gray-300 p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+    />
+    <button
+      id="fixButton"
+      class="rounded-md bg-blue-600 px-6 py-3 font-bold text-white transition-colors hover:bg-blue-700"
+    >
+      Fix & Copy
+    </button>
+  </div>
+
+  <script>
+    const fixButton = document.getElementById('fixButton')
+    const inputField = document.getElementById('linkInput') as HTMLInputElement
+
+    if (fixButton) {
+      fixButton.onclick = () => {
+        const originalLink = inputField.value
+
+        if (!originalLink) {
+          alert('Please enter a link.')
+          return
+        }
+
+        // 링크 변환
+        let fixedLink = originalLink.split('?')[0] // "?" 뒤의 뒷부분 삭제
+        fixedLink = fixedLink.replace('cdn.discordapp.com', 'fixcdn.hyonsu.com') // URL 변경
+
+        // 클립보드에 복사
+        navigator.clipboard
+          .writeText(fixedLink)
+          .then(() => alert('Fixed link copied to clipboard:\n' + fixedLink))
+          .catch(err => alert('Failed to copy the link: ' + err))
+      }
+    }
+  </script>
+</Layout>
