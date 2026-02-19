@@ -2,8 +2,11 @@ name: Deploy to Cloudflare Pages
 
 on:
   push:
-    branches:
-      - main
+    paths:
+      - 'public/**'
+      - 'src/**'
+      - 'package.json'
+      - 'wrangler.jsonc'
   workflow_dispatch:
 
 permissions:
